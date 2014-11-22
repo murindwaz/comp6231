@@ -1,0 +1,83 @@
+module ca{
+	module concordia{
+		module drms{
+			module orb{
+				/** the remote exception will be sent by failing processes */			
+				exception RemoteException{
+					string message;
+				};
+			
+				/**
+				 * Default datatypes used with non-returners client/server communication only  
+				 */
+				struct Account { 
+					 string first; 
+					 string last; 
+					 string email; 
+					 string institution;
+					 string telephone;
+				};
+				struct Book{
+					string title;
+					string author;
+					string code;
+				};
+				struct Reservation{
+					Account account;
+					Book book;
+					long fees;
+				};
+				typedef sequence<Reservation> ReservationList;
+				interface LibraryServer{
+						/**
+						 * Function that creates an account if the account does not exists 
+						 * @param first
+						 * @param last
+						 * @param email
+						 * @param telephone
+						 * @param username
+						 * @param password
+						 * @param institution
+						 */
+						void createAccount(in string first, in string last, in string email, in string telephone, in string username, in string password, in string institution) raises(RemoteException);
+						
+						/**
+						 * This function checks current library, to reserve a book
+						 * @param username
+						 * @param password
+						 * @param title
+						 * @param author
+						 */
+						void reserveBook(in string username, in string password, in string title, in string author) raises(RemoteException);
+						/**
+						 * This function checks current library, to reserve a book
+						 * @param username
+						 * @param password
+						 * @param title
+						 * @param author
+						 */
+						void reserveInterLibrary (in string username, in string password, in string title, in string author) raises(RemoteException);
+						/**
+						 * uses messages to send back and forth stream of info 
+						 * @param <V>
+						 * @param <K>
+						 * @param username
+						 * @param password
+						 * @param institution
+						 * @param days
+						 * @return
+						 */
+						ReservationList getNonReturners(in string username, in string password, in string institution,in long days) raises(RemoteException);
+						/**
+						 * 
+						 * @param username
+						 * @param title
+						 * @param days
+						 * @throws RemoteException
+						 */
+						void setDuration(in string username, in string title,in long days) raises(RemoteException);
+				};
+			};		
+		};
+	};
+};
