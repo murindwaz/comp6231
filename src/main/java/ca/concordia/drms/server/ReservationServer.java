@@ -42,11 +42,7 @@ public class ReservationServer implements Runnable {
 		while(true){
 			try {
 				socket.receive(request);
-<<<<<<< HEAD
 				libraryServer.log( String.format( " %s -- ReservationServer::run received %s from PORT : %d ", libraryServer.getInstitution(), new String(request.getData()) , request.getPort()) );
-=======
-				libraryServer.getLogger().info( String.format( " %s -- ReservationServer::run received %s from PORT : %d ", libraryServer.getInstitution(), new String(request.getData()) , request.getPort()) );
->>>>>>> d1de818cb5f8fbab973e55070f28cddda419eb05
 				Message message = MessageParser.parse(new String(request.getData()));
 				if( message.getOperation().equals(Configuration.DO_RESERVATION)){
 					Book book = libraryServer.doReservation( message.getBook(), message.getAccount());

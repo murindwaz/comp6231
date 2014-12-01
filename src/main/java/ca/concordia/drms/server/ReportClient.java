@@ -33,20 +33,12 @@ public class ReportClient implements Callable<Map<String, Reservation>> {
 			String message = destination; 
 			DatagramPacket request = new DatagramPacket(message.getBytes(), message.getBytes().length, server, Configuration.REPORT_PROCESSING_PORT);
 			socket.send(request);
-<<<<<<< HEAD
 			libraryServer.log( destination + " -- ReportClient called --- " );
-=======
-			libraryServer.getLogger().info( destination + " -- ReportClient called --- " );
->>>>>>> d1de818cb5f8fbab973e55070f28cddda419eb05
 			while (!finished) {
 				byte buffer[] = new byte[Configuration.BUFFER_SIZE];
 				DatagramPacket response = new DatagramPacket(buffer, buffer.length);
 				socket.receive(response);
-<<<<<<< HEAD
 				libraryServer.log( destination + " -- ReportClient::call -- received -- " + new String(response.getData()));
-=======
-				libraryServer.getLogger().info( destination + " -- ReportClient::call -- received -- " + new String(response.getData()));
->>>>>>> d1de818cb5f8fbab973e55070f28cddda419eb05
 				finished = new String(response.getData()).indexOf("done") > -1;
 			}
 		} catch (Exception e) {

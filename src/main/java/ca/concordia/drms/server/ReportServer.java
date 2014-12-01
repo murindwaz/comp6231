@@ -26,11 +26,7 @@ public class ReportServer implements Runnable {
 	public ReportServer(LibraryServerImpl libraryServerImpl, DatagramSocket datagramSocket) throws SocketException {
 		socket = datagramSocket;
 		libraryServer = libraryServerImpl;
-<<<<<<< HEAD
 		libraryServerImpl.log(String.format("ReportServer init :: listening on port " + socket.getPort()));
-=======
-		libraryServerImpl.getLogger().info(String.format("ReportServer init :: listening on port " + socket.getPort()));
->>>>>>> d1de818cb5f8fbab973e55070f28cddda419eb05
 	}
 
 	//
@@ -48,11 +44,7 @@ public class ReportServer implements Runnable {
 				if (message.indexOf(libraryServer.getInstitution()) > -1) {
 					long days = -1L;
 					reservations = libraryServer.getReservations();
-<<<<<<< HEAD
 					libraryServer.log(String.format("ReportServer processing request --- [" + message + "] on ---"+ libraryServer.getInstitution()));
-=======
-					libraryServer.getLogger().info(String.format("ReportServer processing request --- [" + message + "] on ---"+ libraryServer.getInstitution()));
->>>>>>> d1de818cb5f8fbab973e55070f28cddda419eb05
 					for (Entry<String, Reservation> entry : reservations.entrySet()) {
 						long elapsed = (new Date().getTime() - entry.getValue().getDueDate().getTime()) / 86400000L;
 						if (elapsed >= days && entry.getValue().getReturnDate() == null) {
