@@ -47,12 +47,20 @@ public class ReservationClient implements Callable<Book>{
 			byte[] message = raw.getBytes("UTF-8");
 			DatagramPacket request = new DatagramPacket(message, message.length, server, Configuration.RESERVATION_PROCESSING_PORT);
 			socket.send(request);
+<<<<<<< HEAD
 			libraryServer.log(String.format( "%s --- ReservationClient::call -- sent request -- %s -- %d BYTE-- TO  %s PORT :: %d ", libraryServer.getInstitution(), new String(message), message.length, destination , Configuration.RESERVATION_PROCESSING_PORT));
+=======
+			libraryServer.getLogger().info(String.format( "%s --- ReservationClient::call -- sent request -- %s -- %d BYTE-- TO  %s PORT :: %d ", libraryServer.getInstitution(), new String(message), message.length, destination , Configuration.RESERVATION_PROCESSING_PORT));
+>>>>>>> d1de818cb5f8fbab973e55070f28cddda419eb05
 			byte buffer[] = new byte[Configuration.BUFFER_SIZE];
 			DatagramPacket response = new DatagramPacket(buffer, buffer.length);
 			socket.receive(response);
 			rbook = MessageParser.parseBook( new String(response.getData()) );
+<<<<<<< HEAD
 			libraryServer.log( String.format( " %s --- ReservationClient::call -- received -- %s ", libraryServer.getInstitution(), new String(response.getData())) );
+=======
+			libraryServer.getLogger().info( String.format( " %s --- ReservationClient::call -- received -- %s ", libraryServer.getInstitution(), new String(response.getData())) );
+>>>>>>> d1de818cb5f8fbab973e55070f28cddda419eb05
 		}catch( Exception e ){
 			e.printStackTrace();
 		}finally{

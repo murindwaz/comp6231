@@ -1,6 +1,9 @@
 package ca.concordia.drms.util;
 
+<<<<<<< HEAD
 import java.net.InetAddress;
+=======
+>>>>>>> d1de818cb5f8fbab973e55070f28cddda419eb05
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +22,10 @@ public class Configuration {
 	public static final int UDP_SERVER_PORT	= 2121;
 	public static final int REPORT_PROCESSING_PORT = 2323;
 	public static final int RESERVATION_PROCESSING_PORT = 2424;
+<<<<<<< HEAD
 	public static final int COMMAND_PROCESSING_PORT = 2525;
+=======
+>>>>>>> d1de818cb5f8fbab973e55070f28cddda419eb05
 	
 	//1024 * 2 
 	public static final int BUFFER_SIZE				= 2048;
@@ -33,6 +39,7 @@ public class Configuration {
 	public static final int INTERLIB = 4; 
 	public static final int EXIT = 5; 
 	
+<<<<<<< HEAD
 	
 	/**
 	 * @todo merge reserveInterLiba and reservation
@@ -56,6 +63,8 @@ public class Configuration {
 	public static final String REPLICA_THREE_IP = "192.168.2.19";//@todo this is IP address to home in longueuil
 	
 	
+=======
+>>>>>>> d1de818cb5f8fbab973e55070f28cddda419eb05
 	//Institutions 
 	public static final String INSTITUTION_CONCORDIA = "concordia"; 
 	public static final String INSTITUTION_DAWSON = "dawson"; 
@@ -76,18 +85,30 @@ public class Configuration {
 	//allowed commands 
 	public static String[] ALLOWED_COMMANDS = new String[] { "bonjour", "overdue", "account", "reservation", "interlib", "exit" };
 	
+<<<<<<< HEAD
 	
 	
 	/**@todo remove these messages since they are reserved to clients and not RM and Server side*/
+=======
+	//this construct is built based on thoughts found at @link  http://stackoverflow.com/questions/6802483/how-to-directly-initialize-a-hashmap-in-a-literal-way
+>>>>>>> d1de818cb5f8fbab973e55070f28cddda419eb05
 	private static final Map<String,String> help; 
 	static {
 		help = new HashMap<String,String>();
 		/**list available books - so the user can choose one**/
+<<<<<<< HEAD
         help.put(OPERATION_BONJOUR, "**To better serve you, type in order \"bonjour -i [your institution] -r [your role: student of admin]\" to the following prompt **%s");
         help.put(OPERATION_OVERDUE, "**For a report about non-returners, type \"overdue -u [admin username] -p [admin password] -d [overdue minimun days]\" to the following prompt**%s"); 
         help.put(OPERATION_ACCOUNT, "**to register, type \"account -f [first name] -l [last name] -u [username] -p [password] -e [email] -t [telephone] \"**%s");
         help.put(OPERATION_RESERVATION, "**to make a reservation type \"reservation -u [username] -p [password] -b [Book title] -a [Book author] \"**%s");
         help.put(OPERATION_INTERLIB, "**to make an inter-library reservation type \"interlib -u [username] -p [password] -b [Book title] -a [Book author] \"**%s");
+=======
+        help.put("bonjour", "**To better serve you, type in order \"bonjour -i [your institution] -r [your role: student of admin]\" to the following prompt **%s");
+        help.put("overdue", "**For a report about non-returners, type \"overdue -u [admin username] -p [admin password] -d [overdue minimun days]\" to the following prompt**%s"); 
+        help.put("account", "**to register, type \"account -f [first name] -l [last name] -u [username] -p [password] -e [email] -t [telephone] \"**%s");
+        help.put("reservation", "**to make a reservation type \"reservation -u [username] -p [password] -b [Book title] -a [Book author] \"**%s");
+        help.put("interlib", "**to make an inter-library reservation type \"interlib -u [username] -p [password] -b [Book title] -a [Book author] \"**%s");
+>>>>>>> d1de818cb5f8fbab973e55070f28cddda419eb05
         help.put("exit", "**To close this application, type \"exit\"** to prompt. %s");
 	}
 	

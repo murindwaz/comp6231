@@ -32,7 +32,11 @@ public class RemoteLibraryNotifier implements Observer {
 				byte[] message = raw.getBytes("UTF-8");
 				DatagramPacket request = new DatagramPacket(message, message.length, server,Configuration.RESERVATION_PROCESSING_PORT);
 				socket.send(request);
+<<<<<<< HEAD
 				libraryServer.log(destination + " -- RemoteLibraryNotifier::call -- sent notification -- ");
+=======
+				libraryServer.getLogger().info(destination + " -- RemoteLibraryNotifier::call -- sent notification -- ");
+>>>>>>> d1de818cb5f8fbab973e55070f28cddda419eb05
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {

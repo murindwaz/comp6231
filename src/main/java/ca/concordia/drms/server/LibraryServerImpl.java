@@ -40,11 +40,19 @@ public class LibraryServerImpl extends ca.concordia.drms.orb.LibraryServerPOA {
 		//for the logger
 		System.setProperty( "history.log", System.getProperty("user.dir") +"/server-"+institution+".log" );
 		PropertyConfigurator.configure("log4j.properties"); 
+<<<<<<< HEAD
 		logger = Logger.getLogger(LibraryServerImpl.class);
 		this.institution = institution;
 		accounts = new HashMap<String, Map<String, Account>>();
 		reservations = new HashMap<String, Reservation>();
 		logger.info("New Instance created for " + institution );
+=======
+		this.logger = Logger.getLogger(LibraryServerImpl.class);
+		this.institution = institution;
+		this.accounts = new HashMap<String, Map<String, Account>>();
+		this.reservations = new HashMap<String, Reservation>();
+		this.logger.info("New Instance created for " + institution );
+>>>>>>> d1de818cb5f8fbab973e55070f28cddda419eb05
 	}
 	
 	
@@ -52,7 +60,11 @@ public class LibraryServerImpl extends ca.concordia.drms.orb.LibraryServerPOA {
 		this(institution);
 		this.accounts = accounts;
 		this.books = books;
+<<<<<<< HEAD
 		reservations = new HashMap<String, Reservation>();
+=======
+		this.reservations = new HashMap<String, Reservation>();
+>>>>>>> d1de818cb5f8fbab973e55070f28cddda419eb05
 	}
 
 	/**
@@ -74,11 +86,16 @@ public class LibraryServerImpl extends ca.concordia.drms.orb.LibraryServerPOA {
 		return reservations;
 	};
 
+<<<<<<< HEAD
 	
 	
 	
 	public void log( String message ) {
 		logger.info(message);
+=======
+	public Logger getLogger() {
+		return logger;
+>>>>>>> d1de818cb5f8fbab973e55070f28cddda419eb05
 	};	
 
 	/**
@@ -174,7 +191,11 @@ public class LibraryServerImpl extends ca.concordia.drms.orb.LibraryServerPOA {
 
 	//makes the book available in current library 
 	//set to book.setIsReserved( false );
+<<<<<<< HEAD
 	public void doRelease(Book book, Account account){
+=======
+	public void doRelease( Book book, Account account ){
+>>>>>>> d1de818cb5f8fbab973e55070f28cddda419eb05
 		Entry<String, Book> bookEntry = findBookEntry(book, false);
 		if( bookEntry != null ) 
 			bookEntry.getValue().setReserved(false);
@@ -238,7 +259,11 @@ public class LibraryServerImpl extends ca.concordia.drms.orb.LibraryServerPOA {
 						if(book instanceof Book && book.getCode() != null ) { 
 							shelf.add( book );
 						}
+<<<<<<< HEAD
 						log( String.format(" %s reserveInterLibrary :: getting a book  ---- %s", this.getInstitution(), book != null ? book.toString() : " NOT FOUND " ) );
+=======
+						getLogger().info( String.format(" %s reserveInterLibrary :: getting a book  ---- %s", this.getInstitution(), book != null ? book.toString() : " NOT FOUND " ) );
+>>>>>>> d1de818cb5f8fbab973e55070f28cddda419eb05
 					}
 				}
 			} catch (Exception e) {
@@ -321,6 +346,13 @@ public class LibraryServerImpl extends ca.concordia.drms.orb.LibraryServerPOA {
 		this.logger.info("startReservationServer for " + institution );
 	}
 	
+<<<<<<< HEAD
+=======
+
+	
+
+	
+>>>>>>> d1de818cb5f8fbab973e55070f28cddda419eb05
 	
 	/**
 	 * runs reporting server process
@@ -339,11 +371,26 @@ public class LibraryServerImpl extends ca.concordia.drms.orb.LibraryServerPOA {
 
 	
 	/**
+<<<<<<< HEAD
 	 * This function collects reservation from servers and return to the caller
 	 * @param username 
 	 * @param password 
 	 * @param institutions 
 	 * @param days 
+=======
+	 * @todo run these two concurrent threads, update data as data comes in 
+	 * @return 
+	 * @todo implement me 
+	 * @todo try the future  implementation 
+	 * @link http://stackoverflow.com/questions/22678556/return-a-value-from-a-thread-after-it-finish-execution
+	 * @link http://stackoverflow.com/questions/289434/how-to-make-a-java-thread-wait-for-another-threads-output
+	 * This example looks more promising 
+	 * @link http://stackoverflow.com/questions/3141158/how-can-a-thread-return-a-value-after-finishing-its-job
+	 * 
+	 * 
+	 * @link http://java.dzone.com/articles/java-concurrency-%E2%80%93-part-7
+	 * alt @link http://baptiste-wicht.com/posts/2010/09/java-concurrency-part-7-executors-and-thread-pools.html 
+>>>>>>> d1de818cb5f8fbab973e55070f28cddda419eb05
 	 */
 	public ca.concordia.drms.orb.Reservation[] getNonReturners(String username, String password, String institution, int days)  throws RemoteException {
 		ExecutorService threadPool = Executors.newFixedThreadPool( nodes.length - 1 );
@@ -389,4 +436,11 @@ public class LibraryServerImpl extends ca.concordia.drms.orb.LibraryServerPOA {
 		this.nodes = nodes;
 	}
 
+<<<<<<< HEAD
+=======
+
+	
+
+
+>>>>>>> d1de818cb5f8fbab973e55070f28cddda419eb05
 }
