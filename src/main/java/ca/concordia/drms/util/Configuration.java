@@ -48,11 +48,26 @@ public class Configuration {
 	private static String OPERATION_RESERVATION = "reservation";
 	private static String OPERATION_INTERLIB = "interlib";
 
+	
+	/**
+	 * Replica Manager administration tasks
+	 */
+	private static String OPERATION_BYZANTINE = "byzantine";
+	private static String OPERATION_RESYNC = "resync";
+	private static String OPERATION_REPLICATION = "replication";
+
 	public static final int REPLICA_MANAGER_PORT =  2626;
 	public static final String REPLICA_MANAGER_OPERATION_ACCOUNT = OPERATION_ACCOUNT;
 	public static final String REPLICA_MANAGER_OPERATION_OVERDUE = OPERATION_OVERDUE;
 	public static final String REPLICA_MANAGER_OPERATION_RESERVATION = OPERATION_RESERVATION;
 	public static final String REPLICA_MANAGER_OPERATION_INTERLIB = OPERATION_INTERLIB;
+	//Replica Manager administration tasks 
+	public static final String REPLICA_MANAGER_OPERATION_BYZANTINE = OPERATION_BYZANTINE;
+	public static final String REPLICA_MANAGER_OPERATION_RESYNC = OPERATION_RESYNC;
+	public static final String REPLICA_MANAGER_OPERATION_REPLICATION = OPERATION_REPLICATION;
+	
+	
+	
 	
 	//InetAddress.getByName("localhost")
 	//InetAddress.getLocalHost(); == IP of this computer if used InetAddress.getLocalHost().getHostAddress();
@@ -76,7 +91,7 @@ public class Configuration {
 	public static final String DO_LOCK		= "l";
 	
 	//allowed commands 
-	public static String[] ALLOWED_COMMANDS = new String[] { "bonjour", "overdue", "account", "reservation", "interlib", "exit" };
+	public static String[] ALLOWED_COMMANDS = new String[] { "bonjour", "overdue", "account", "reservation", "interlib", "exit" , "byzantine" , "resync" , "replication" };
 	
 	//Time to wait before timeout.
 	public static final int SOCKET_TIMEOUT = (9 * 1000); 
