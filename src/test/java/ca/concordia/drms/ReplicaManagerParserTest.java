@@ -14,7 +14,7 @@ import ca.concordia.drms.model.NetworkMessage;
 import ca.concordia.drms.model.Reservation;
 import ca.concordia.drms.util.Configuration;
 import ca.concordia.drms.util.ReplicaManagerParser;
-import ca.concordia.drms.util.task.StringTransformer;
+import ca.concordia.drms.util.StringTransformer;
 
 
 

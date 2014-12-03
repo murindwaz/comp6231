@@ -82,6 +82,28 @@ public class ReplicaManager implements Replica{
 			orb.run();
 	}
 
+	
+	/**
+	 * @throws Exception 
+	 * @todo use resync() to notify replicas in current grid to forward update messages here 
+	 * @todo check if this approach can work or not.
+	 * @todo in kill, check if current instance is not lost.
+	 * @todo check if it is feasible to use rm.kill() and rm.up();
+	 * @todo this is done when there is a Byzantine error
+	 */
+	public void reboot(ReplicaManager replicaManager) throws Exception {
+		replicaManager.kill();
+		replicaManager.up();
+		replicaManager.resync();
+	}
+	/**
+	 * @todo if whatever has been said above is correct, please move the code down here.	
+	 */
+	public void reboot() throws Exception {
+		//
+	}
+
+	
 	/**
 	 * @throws SocketException 
 	 * @warning This function has to run at last time.
@@ -125,5 +147,8 @@ public class ReplicaManager implements Replica{
 		rm = new ReplicaManager(); 
 		rm.up();
 	}
+
+
+	
     
 }

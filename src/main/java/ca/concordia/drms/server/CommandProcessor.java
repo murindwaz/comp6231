@@ -6,11 +6,10 @@ import java.net.DatagramSocket;
 import java.util.Map;
 
 import ca.concordia.drms.ReplicaManager;
-import ca.concordia.drms.model.*;
 import ca.concordia.drms.orb.RemoteException;
 import ca.concordia.drms.util.Configuration;
-import ca.concordia.drms.util.ReplicaManagerParser;
-import ca.concordia.drms.util.task.*;
+import ca.concordia.drms.util.task.ReplicaManagerTaskFactory;
+import ca.concordia.drms.util.task.Task;
 
 /**
  * This class waits for request, reads the message, and delegate to the right caller 
@@ -39,7 +38,8 @@ public class CommandProcessor implements Runnable {
 		while(true){
 			try {
 				socket.receive(request);
-				Task rmtask = ReplicaManagerTaskFactory.create(request, libraries);
+				//@todo there is no clear need to keep libraries, if we can get that in ReplicaManager instance 
+				Task rmtask = ReplicaManagerTaskFactory.create(request, libraries, replica);
 				rmtask.execute();
 			} catch (IOException e) {
 				e.printStackTrace();

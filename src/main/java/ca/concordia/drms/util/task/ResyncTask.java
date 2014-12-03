@@ -16,17 +16,31 @@ import ca.concordia.drms.server.LibraryServerImpl;
  */
 public class ResyncTask implements Task {
 
-	public ResyncTask(LibraryServerImpl libraryServer, NetworkMessage ntwkmessage) {
-		// TODO Auto-generated constructor stub
+	
+	private DatagramPacket request;
+	private LibraryServerImpl libraryServer;
+	private NetworkMessage networkMessage;
+	
+	
+	
+	/**
+	 * @todo check if this
+	 * @param libraryServerImpl
+	 * @param ntwkmessage
+	 */
+	public ResyncTask(LibraryServerImpl libraryServerImpl, NetworkMessage ntwkmessage) {
+		libraryServer = libraryServerImpl;
+		networkMessage = ntwkmessage;
 	}
 
+	
+	
 	public void execute() throws RemoteException {
-		
+		//@todo complete this task. 
 	}
 
-	public void setRequest(DatagramPacket request) {
-		// TODO Auto-generated method stub
-		
+	public void setRequest(DatagramPacket datagramPacket) {
+		request = datagramPacket;
 	}
 
 }

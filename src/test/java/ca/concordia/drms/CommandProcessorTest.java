@@ -15,7 +15,7 @@ import ca.concordia.drms.model.Account;
 import ca.concordia.drms.model.NetworkMessage;
 import ca.concordia.drms.util.Configuration;
 import ca.concordia.drms.util.ReplicaManagerParser;
-import ca.concordia.drms.util.task.StringTransformer;
+import ca.concordia.drms.util.StringTransformer;
 
 public class CommandProcessorTest {
 

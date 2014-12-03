@@ -26,6 +26,7 @@ public interface Replica {
 	/**
 	 * The stop function will stop 
 	 */
+	void reboot() throws Exception;
 	void kill();
 	
 	/**

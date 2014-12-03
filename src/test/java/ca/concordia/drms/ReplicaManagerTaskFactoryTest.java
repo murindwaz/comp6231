@@ -22,9 +22,11 @@ public class ReplicaManagerTaskFactoryTest{
 	
 	
 	private LibraryServerImpl libraryServer; 
+	private ReplicaManager replicaManager;
 	
 	@Before public void setUp(){
 		libraryServer = new LibraryServerImpl(Configuration.INSTITUTION_CONCORDIA);
+		replicaManager = new ReplicaManager();
 	}
 	@After  public void tearDown(){}; 
 	
@@ -38,15 +40,15 @@ public class ReplicaManagerTaskFactoryTest{
 		Map<String, LibraryServerImpl> libraries = new HashMap<String,LibraryServerImpl>();
 		NetworkMessage ntwkmessage = new NetworkMessage();
 		ntwkmessage.setOperation(Configuration.REPLICA_MANAGER_OPERATION_ACCOUNT); 
-		Task task = ReplicaManagerTaskFactory.create(datagramPacket, libraries);
+		Task task = ReplicaManagerTaskFactory.create(datagramPacket, libraries, replicaManager);
 		assertTrue(task instanceof AccountTask);
 		
 		ntwkmessage.setOperation(Configuration.REPLICA_MANAGER_OPERATION_RESERVATION); 
-		task = ReplicaManagerTaskFactory.create(datagramPacket, libraries);
+		task = ReplicaManagerTaskFactory.create(datagramPacket, libraries, replicaManager);
 		assertTrue(task instanceof ReservationTask);
 		
 		ntwkmessage.setOperation(Configuration.REPLICA_MANAGER_OPERATION_OVERDUE); 
-		task = ReplicaManagerTaskFactory.create(datagramPacket, libraries);
+		task = ReplicaManagerTaskFactory.create(datagramPacket, libraries, replicaManager);
 		assertTrue(task instanceof OverdueTask);
 	}
 	
