@@ -34,9 +34,10 @@ public interface Replica {
 	void resync();
 	/**
 	 * receive receives requests and call appropriate server side function
+	 * @throws SocketException 
 	 * 	
 	 */
-	void receive();
+	void receive() throws SocketException;
 	
 	/**
 	 * The replica send acknowledgment 

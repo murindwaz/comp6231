@@ -4,6 +4,10 @@ package ca.concordia.drms;
 
 import static org.junit.Assert.*;
 
+import java.net.DatagramPacket;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,18 +33,20 @@ public class ReplicaManagerTaskFactoryTest{
 	public void testCanCreateReplicaManagerTasks() throws Exception{
 		
 		assertNotNull( new ReplicaManagerTaskFactory() );
-		
+		//@todo retest this 
+		DatagramPacket datagramPacket = new DatagramPacket(null, 0);
+		Map<String, LibraryServerImpl> libraries = new HashMap<String,LibraryServerImpl>();
 		NetworkMessage ntwkmessage = new NetworkMessage();
 		ntwkmessage.setOperation(Configuration.REPLICA_MANAGER_OPERATION_ACCOUNT); 
-		Task task = ReplicaManagerTaskFactory.create(ntwkmessage, libraryServer);
+		Task task = ReplicaManagerTaskFactory.create(datagramPacket, libraries);
 		assertTrue(task instanceof AccountTask);
 		
 		ntwkmessage.setOperation(Configuration.REPLICA_MANAGER_OPERATION_RESERVATION); 
-		task = ReplicaManagerTaskFactory.create(ntwkmessage, libraryServer);
+		task = ReplicaManagerTaskFactory.create(datagramPacket, libraries);
 		assertTrue(task instanceof ReservationTask);
 		
 		ntwkmessage.setOperation(Configuration.REPLICA_MANAGER_OPERATION_OVERDUE); 
-		task = ReplicaManagerTaskFactory.create(ntwkmessage, libraryServer);
+		task = ReplicaManagerTaskFactory.create(datagramPacket, libraries);
 		assertTrue(task instanceof OverdueTask);
 	}
 	

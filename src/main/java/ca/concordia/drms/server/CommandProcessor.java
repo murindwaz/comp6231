@@ -10,8 +10,7 @@ import ca.concordia.drms.model.*;
 import ca.concordia.drms.orb.RemoteException;
 import ca.concordia.drms.util.Configuration;
 import ca.concordia.drms.util.ReplicaManagerParser;
-import ca.concordia.drms.util.task.ReplicaManagerTaskFactory;
-import ca.concordia.drms.util.task.Task;
+import ca.concordia.drms.util.task.*;
 
 /**
  * This class waits for request, reads the message, and delegate to the right caller 
@@ -35,16 +34,12 @@ public class CommandProcessor implements Runnable {
 	 * NetworkMessage has operation, destination and payload 
 	 */
 	public void run() {
-		NetworkMessage ntwkmessage = null;
 		byte[] buffer = new byte[ Configuration.BUFFER_SIZE];
 		DatagramPacket request = new DatagramPacket(buffer, buffer.length);
 		while(true){
 			try {
 				socket.receive(request);
-				ntwkmessage = ReplicaManagerParser.parseNetworkMessage(new String(request.getData()));
-				libraryServer = libraries.get(ntwkmessage.getDestination());
-				libraryServer.log( String.format( " %s -- CommandProcessor::run received %s from PORT : %d ", libraryServer.getInstitution(), new String(request.getData()) , request.getPort()) );
-				Task rmtask = ReplicaManagerTaskFactory.create(ntwkmessage, libraryServer);
+				Task rmtask = ReplicaManagerTaskFactory.create(request, libraries);
 				rmtask.execute();
 			} catch (IOException e) {
 				e.printStackTrace();

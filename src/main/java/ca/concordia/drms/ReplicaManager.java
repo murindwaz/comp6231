@@ -32,7 +32,6 @@ public class ReplicaManager implements Replica{
 	
 	//to be used with main function
 	private static ReplicaManager rm ;
-	private boolean running = false;
 	
 	
 	
@@ -54,7 +53,7 @@ public class ReplicaManager implements Replica{
 			String [] names  = new String[]{Configuration.INSTITUTION_CONCORDIA, Configuration.INSTITUTION_DAWSON, Configuration.INSTITUTION_MCGILL}; 
 			
 			Properties props = new Properties();
-			//props.put("org.omg.CORBA.ORBInitialHost", "localhost");
+			props.put("org.omg.CORBA.ORBInitialHost", "localhost");
 			props.put("org.omg.CORBA.ORBInitialPort", Configuration.PORT_NUMBER);
 			ORB orb = ORB.init(new String[]{}, props);
 			POA poa = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
@@ -79,23 +78,22 @@ public class ReplicaManager implements Replica{
 				libraries.put(institution, servant);			
 				poa.the_POAManager().activate();
 			}
+			new Thread(new CommandProcessor(rm, libraries, commandSocket)).start();
 			orb.run();
-			running = true;
 	}
 
 	/**
+	 * @throws SocketException 
+	 * @warning This function has to run at last time.
 	 * The receive method, listens for data sent to this replica manager.
 	 * It parses the NetworkMessage
 	 * 	 - operation, destination, extracts the payload
 	 *   -  
 	 */
-	public void receive() {
-		new Thread(){{
-			new CommandProcessor(rm, libraries, commandSocket);
-		}}.start();
+	public void receive() throws SocketException {
+		
+			
 	}
-	
-	
 	
 	/**
 	 * Kills current instances of the server. 
@@ -108,10 +106,11 @@ public class ReplicaManager implements Replica{
 	}
 
 	public void resync() {
-		
+		//waits for incoming updates.
+		//redirects update to a proper server 
 	}
 	public void acknowledge() {
-		
+		//this methods should not be here ... 
 	}
 	
 	
@@ -125,7 +124,6 @@ public class ReplicaManager implements Replica{
 	public static void main(String args[]) throws Exception{
 		rm = new ReplicaManager(); 
 		rm.up();
-		rm.receive();
 	}
     
 }

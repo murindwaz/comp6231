@@ -1,12 +1,13 @@
 package ca.concordia.drms.util;
 
-import java.net.InetAddress;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import ca.concordia.drms.model.*;
+import ca.concordia.drms.model.Account;
+import ca.concordia.drms.model.Book;
+import ca.concordia.drms.model.Reservation;
 
 
 /**
@@ -32,8 +33,11 @@ public class Configuration {
 	public static final int RESERVATION = 3; 
 	public static final int INTERLIB = 4; 
 	public static final int EXIT = 5; 
-	
-	
+	//Replication tasks --- these task IDs are used for managerial purposes
+	public static final int BYZANTINE = 6;
+	public static final int RESYNC = 7;
+	public static final int REPLICATION = 8;
+
 	/**
 	 * @todo merge reserveInterLiba and reservation
 	 * The code becomes a bit smaller
@@ -51,6 +55,7 @@ public class Configuration {
 	public static final String REPLICA_MANAGER_OPERATION_INTERLIB = OPERATION_INTERLIB;
 	
 	//InetAddress.getByName("localhost")
+	//InetAddress.getLocalHost(); == IP of this computer if used InetAddress.getLocalHost().getHostAddress();
 	public static final String REPLICA_ONE_IP = "192.168.2.19";//@todo this is IP address to home in longueuil
 	public static final String REPLICA_TWO_IP = "192.168.2.19";//@todo this is IP address to home in longueuil
 	public static final String REPLICA_THREE_IP = "192.168.2.19";//@todo this is IP address to home in longueuil
@@ -64,22 +69,20 @@ public class Configuration {
 	//roles 
 	public static final String ROLE_ADMIN = "admin"; 
 	public static final String ROLE_STUDENT = "student"; 
-
-	
 	
 	//reservation operations for  ReservationServer & ReservationClient 
 	public static final String DO_RESERVATION = "t";
 	public static final String DO_RELEASE	= "r";
 	public static final String DO_LOCK		= "l";
 	
-	
 	//allowed commands 
 	public static String[] ALLOWED_COMMANDS = new String[] { "bonjour", "overdue", "account", "reservation", "interlib", "exit" };
 	
-	
+	//Time to wait before timeout.
+	public static final int SOCKET_TIMEOUT = (9 * 1000); 
 	
 	/**@todo remove these messages since they are reserved to clients and not RM and Server side*/
-	private static final Map<String,String> help; 
+	private static final Map<String,String> help;
 	static {
 		help = new HashMap<String,String>();
 		/**list available books - so the user can choose one**/

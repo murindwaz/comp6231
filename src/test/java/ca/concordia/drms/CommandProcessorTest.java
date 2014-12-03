@@ -11,9 +11,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import ca.concordia.drms.model.Account;
 import ca.concordia.drms.model.NetworkMessage;
 import ca.concordia.drms.util.Configuration;
 import ca.concordia.drms.util.ReplicaManagerParser;
+import ca.concordia.drms.util.task.StringTransformer;
 
 public class CommandProcessorTest {
 
@@ -39,11 +41,12 @@ public class CommandProcessorTest {
 			commandSocket = new DatagramSocket();
 			networkMessage.setDestination(Configuration.INSTITUTION_CONCORDIA);
 			networkMessage.setOperation(Configuration.REPLICA_MANAGER_OPERATION_ACCOUNT);
-			networkMessage.setPayload("Hey There");
-			
+			Account account = new Account("Pascal", "Maniraho","pmnr@email", "514-5714", "pmnr","pmnr", Configuration.INSTITUTION_CONCORDIA);
+			networkMessage.setPayload( StringTransformer.getString(account));
 			final byte[] message = networkMessage.toString().getBytes("UTF-8");
-			final DatagramPacket request = new DatagramPacket(message, message.length, InetAddress.getByName("localhost"), Configuration.RESERVATION_PROCESSING_PORT);
+			final DatagramPacket request = new DatagramPacket(message, message.length, InetAddress.getByName("localhost"), Configuration.REPLICA_MANAGER_PORT);
 			commandSocket.send(request);
+			commandSocket.setSoTimeout(Configuration.SOCKET_TIMEOUT);
 			final byte buffer[] = new byte[Configuration.BUFFER_SIZE];
 			final DatagramPacket response = new DatagramPacket(buffer, buffer.length);
 			commandSocket.receive(response);

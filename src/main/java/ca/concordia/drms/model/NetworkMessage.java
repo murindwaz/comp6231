@@ -14,6 +14,10 @@ public class NetworkMessage {
 	 *  - Configuration.OPERATION_OVERDUE
 	 *  - Configuration.OPERATION_INTERLIB
 	 *  - Configuration.OPERATION_RESERVATION
+	 *  
+	 *  @todo add following Operations
+	 *  - Configuration.REPLICA_OPERATION_RESYNC
+	 *  - Configuration.REPLICA_OPERATION_ELECTION [Not covered in this implementation]
 	 */
 	private String operation; 
 	/**
