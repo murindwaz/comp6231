@@ -12,8 +12,8 @@ import org.omg.CORBA.ORBPackage.InvalidName;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAHelper;
 
-import ca.concordia.drms.model.*;
-import ca.concordia.drms.server.*;
+import ca.concordia.drms.server.CommandProcessor;
+import ca.concordia.drms.server.LibraryServerImpl;
 import ca.concordia.drms.util.Configuration;
 
 /**

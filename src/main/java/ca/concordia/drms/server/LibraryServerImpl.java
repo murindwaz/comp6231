@@ -66,6 +66,11 @@ public class LibraryServerImpl extends ca.concordia.drms.orb.LibraryServerPOA {
 	}
 	
 	
+	/**
+	 * @param institution
+	 * @param books
+	 * @param accounts
+	 */
 	public LibraryServerImpl(String institution, Map<String, Book> books, Map<String, Map<String, Account>> accounts) {
 		this(institution);
 		this.accounts = accounts;
@@ -414,6 +419,10 @@ public class LibraryServerImpl extends ca.concordia.drms.orb.LibraryServerPOA {
 			}
 		}
 		//close the threadpool at the end 
+		if( acknowledgmentTask != null ){ 
+			acknowledgmentTask.getNetworkMessage().setPayload(StringTransformer.getString(_reservations));
+			acknowledgmentTask.execute();
+		}
 		threadPool.shutdown();
 		return ReservationTransformer.transform( _reservations );
 	}

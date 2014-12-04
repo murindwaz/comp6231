@@ -1,5 +1,7 @@
 package ca.concordia.drms.util;
 
+import java.util.Map;
+
 import com.google.gson.Gson;
 
 import ca.concordia.drms.model.*;
@@ -48,6 +50,10 @@ public class StringTransformer {
 	 */
 	public static String getString(NetworkMessage networkMessage){
 		return (new Gson()).toJson(networkMessage);
+	}
+
+	public static String getString(Map<String, Reservation> _reservations) {
+		return (new Gson()).toJson(_reservations);	
 	}
 	
 }

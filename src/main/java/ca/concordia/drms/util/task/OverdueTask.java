@@ -1,7 +1,10 @@
 package ca.concordia.drms.util.task;
 
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.util.Map;
 
+import ca.concordia.drms.ReplicaManager;
 import ca.concordia.drms.model.*;
 import ca.concordia.drms.orb.RemoteException;
 import ca.concordia.drms.server.LibraryServerImpl;
@@ -17,29 +20,43 @@ import ca.concordia.drms.util.ReservationTransformer;
  */
 public class OverdueTask implements Task{
 	
-	private LibraryServerImpl libraryServer;
 	private Reservation overdue;
-	
-	
-	public OverdueTask(LibraryServerImpl libraryServerReference, NetworkMessage message) throws Exception{
-		overdue = ReplicaManagerParser.parseOverdue(message.getPayload());
-		overdue.getAccount().setInstitution(libraryServerReference.getInstitution());
-		libraryServer = libraryServerReference;
-	}
-	
+	private Map<String, LibraryServerImpl> libraries;
+	private LibraryServerImpl libraryServer;
+	private ReplicaManager replicaManager;
+	private DatagramSocket datagramSocket;
+	private DatagramPacket datagramPacket;
+	private NetworkMessage networkMessage;
 	
 	/**
-	 * @throws RemoteException 
-	 * @todo check if it is more helpful to start/stop new Thread( new ReturnersReceiver( )).start(); here 
-	 * @todo check if ca.concordia.drms.orb.LibraryServer  is not null, else throw an exception
+	 * @param replicaManager
+	 * @param libraries
+	 * @param networkMessage
+	 * @param datagramSocket
+	 * @param datagramPacket
+	 * @throws Exception
 	 */
-	public void execute( ) throws RemoteException{
-        Map<String, String> help = Configuration.getCommandHelp();
-        ca.concordia.drms.orb.Reservation[] _reservations = libraryServer.getNonReturners(overdue.getAccount().getUsername(), overdue.getAccount().getPassword(), libraryServer.getInstitution(), overdue.getDays() );
-	    new Reporter(overdue.getAccount()).report(ReservationTransformer.transform(_reservations));
-		System.out.printf(help.get(Configuration.ALLOWED_COMMANDS[ Configuration.EXIT]), "\r\n >");
-		//@todo notify the ReplicaManager about this task
+	public OverdueTask(ReplicaManager replicaManager, Map<String, LibraryServerImpl> libraries,
+			NetworkMessage networkMessage, DatagramSocket datagramSocket, DatagramPacket datagramPacket)  throws Exception{
+		this.libraries = libraries;
+		this.datagramPacket  =  datagramPacket;
+		this.datagramSocket = datagramSocket;
+		this.replicaManager = replicaManager;
+		this.networkMessage = networkMessage;
+		libraryServer = libraries.get(networkMessage.getDestination());
+		overdue = ReplicaManagerParser.parseOverdue(networkMessage.getPayload());
+		overdue.getAccount().setInstitution(libraryServer.getInstitution());
 	}
 
+
+	/**
+	 * @throws RemoteException 
+	 */
+	public void execute( ) throws RemoteException{
+		libraryServer.setAcknowledgmentTask(new AcknowledgmentTask(replicaManager, libraries, networkMessage, datagramSocket, datagramPacket) );
+        ca.concordia.drms.orb.Reservation[] _reservations = libraryServer.getNonReturners(overdue.getAccount().getUsername(), overdue.getAccount().getPassword(), libraryServer.getInstitution(), overdue.getDays() );
+	    new Reporter(overdue.getAccount()).report(ReservationTransformer.transform(_reservations));
+        libraryServer.log(String.format("OverdueTask::execute d"));
+	}
 
 }
