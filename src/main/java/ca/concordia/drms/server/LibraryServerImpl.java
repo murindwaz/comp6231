@@ -8,10 +8,12 @@ import java.util.concurrent.*;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
+import ca.concordia.drms.ReplicaManager;
 import ca.concordia.drms.model.*;
 import ca.concordia.drms.orb.RemoteException;
 import ca.concordia.drms.util.*;
 import ca.concordia.drms.util.task.AccountActivity;
+import ca.concordia.drms.util.task.AcknowledgmentTask;
 
 /**
  * @todo rename LibraryServer to LibraryServerImpl, and LibraryServerImpl to LibraryServerImpl
@@ -30,6 +32,25 @@ public class LibraryServerImpl extends ca.concordia.drms.orb.LibraryServerPOA {
 	private Map<String, Reservation> reservations;
 	private final Logger logger;
 	private String[] nodes;
+	
+	//
+	
+	private AcknowledgmentTask acknowledgmentTask;
+	
+	
+
+	/**
+	 * Kept to be able to send request to other servers
+	 * @return
+	 */
+	public String[] getNodes(){
+		return this.nodes;
+	}
+	public void setNodes(String[] nodes) {
+		this.nodes = nodes;
+	}
+
+	
 	
 	
 	public LibraryServerImpl() {
@@ -100,6 +121,9 @@ public class LibraryServerImpl extends ca.concordia.drms.orb.LibraryServerPOA {
 		
 		//
 		if( username == null || username.trim().equals("") || findAccountByUsername(username) instanceof Account ){
+			//@todo update the message before sending the message back to the client
+			//acknowledgmentTask.getNetworkMessage().setPayload(payload);
+			//acknowledgmentTask.execute();
 			throw new RemoteException("Account'username has been used, please try with a different username");
 		}
 		/**
@@ -120,6 +144,10 @@ public class LibraryServerImpl extends ca.concordia.drms.orb.LibraryServerPOA {
 			account.setPassword(password);
 			account.setInstitution(institution);
 			accounts.get(initial).put(username, account);
+			//Added this code to allow the ReplicaManager to notify the Sequencer about the outcome of the operation
+			acknowledgmentTask.getNetworkMessage().setPayload(StringTransformer.getString(account));
+			acknowledgmentTask.execute();
+			
 			new AccountActivity(account).logActivity("Account Successfully created");
 			logger.debug(account.toString());
 		}
@@ -377,16 +405,14 @@ public class LibraryServerImpl extends ca.concordia.drms.orb.LibraryServerPOA {
 		return ReservationTransformer.transform( _reservations );
 	}
 	
-	
 	/**
-	 * Kept to be able to send request to other servers
-	 * @return
+	 * Function that sends notification of the outcome on a request outcome.
+	 * @param acknowledgmentTask
 	 */
-	public String[] getNodes(){
-		return this.nodes;
+	public void setAcknowledgmentTask(AcknowledgmentTask acknowledgmentTask) {
+		this.acknowledgmentTask = acknowledgmentTask;
 	}
-	public void setNodes(String[] nodes) {
-		this.nodes = nodes;
-	}
+	
+	
 
 }

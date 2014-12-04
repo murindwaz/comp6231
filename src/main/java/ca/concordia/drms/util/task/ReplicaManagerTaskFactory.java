@@ -1,6 +1,7 @@
 package ca.concordia.drms.util.task;
 
 import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -8,7 +9,6 @@ import ca.concordia.drms.ReplicaManager;
 import ca.concordia.drms.model.NetworkMessage;
 import ca.concordia.drms.server.LibraryServerImpl;
 import ca.concordia.drms.util.Configuration;
-import ca.concordia.drms.util.ReplicaManagerParser;
 
 /**
  * This class will be used to create tasks being used by CommandProcessor.
@@ -16,26 +16,25 @@ import ca.concordia.drms.util.ReplicaManagerParser;
  */
 public class ReplicaManagerTaskFactory {
 
-	public static Task create(DatagramPacket request, Map<String, LibraryServerImpl> libraries, ReplicaManager replicaManager) throws Exception {
+	public static Task create(ReplicaManager replicaManager, Map<String, LibraryServerImpl> libraries, NetworkMessage networkMessage, DatagramSocket datagramSocket, DatagramPacket datagramPacket) throws Exception {
 		// @todo move these parameters to ReplicaManager-Task
 		Task task = null;
-		NetworkMessage ntwkmessage = ReplicaManagerParser.parseNetworkMessage(new String(request.getData()));
-		LibraryServerImpl libraryServer = libraries.get(ntwkmessage.getDestination());
+		LibraryServerImpl libraryServer = libraries.get(networkMessage.getDestination());
 		libraryServer.log(String.format(" %s -- CommandProcessor::run received %s from PORT : %d ",
-				libraryServer.getInstitution(), new String(request.getData()), request.getPort()));
-		int ctask = Arrays.asList(Configuration.ALLOWED_COMMANDS).indexOf(ntwkmessage.getOperation());
+				libraryServer.getInstitution(), new String(networkMessage.toString()), datagramSocket.getPort()));
+		int ctask = Arrays.asList(Configuration.ALLOWED_COMMANDS).indexOf(networkMessage.getOperation());
 		switch (ctask) {
 			/**
 			 * Basic Operations tasks
 			 */
 			case Configuration.ACCOUNT:
-				task = new AccountTask(libraryServer, ntwkmessage);
+				task = new AccountTask(replicaManager, libraries, networkMessage, datagramSocket, datagramPacket);
 				break;
 			case Configuration.OVERDUE:
-				task = new OverdueTask(libraryServer, ntwkmessage);
+				task = new OverdueTask(libraryServer, networkMessage);
 				break;
 			case Configuration.RESERVATION:
-				task = new ReservationTask(libraryServer, ntwkmessage, false);
+				task = new ReservationTask(libraryServer, networkMessage, false);
 				break;
 			/**
 			 * Administrative tasks
@@ -44,20 +43,20 @@ public class ReplicaManagerTaskFactory {
 				/**
 				 * @todo run this task whenever there is a message 
 				 */
-				task = new ByzantineTask(libraryServer, ntwkmessage);
+				task = new ByzantineTask(libraryServer, networkMessage);
 				((ByzantineTask) task).setReplicaManager(replicaManager);
 				break;
 			case Configuration.RESYNC:
-				task = new ResyncTask(libraryServer, ntwkmessage);
-				((ResyncTask) task).setRequest(request);
+				task = new ResyncTask(libraryServer, networkMessage);
+				//((ResyncTask) task).setRequest(request);
 				break;
 			case Configuration.REPLICATION:
 				/**
 				 * This task should be running in background
 				 * @todo if possible, move this task to the front-controller .... or run it at start time 
 				 */
-				task = new ReplicationTask(libraryServer, ntwkmessage);
-				((ReplicationTask) task).setReplica(request);
+				task = new ReplicationTask(libraryServer, networkMessage);
+				//((ReplicationTask) task).setReplica(request);
 				break;
 		}
 		return task;

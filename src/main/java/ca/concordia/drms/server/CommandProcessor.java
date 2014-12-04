@@ -6,8 +6,10 @@ import java.net.DatagramSocket;
 import java.util.Map;
 
 import ca.concordia.drms.ReplicaManager;
+import ca.concordia.drms.model.NetworkMessage;
 import ca.concordia.drms.orb.RemoteException;
 import ca.concordia.drms.util.Configuration;
+import ca.concordia.drms.util.ReplicaManagerParser;
 import ca.concordia.drms.util.task.ReplicaManagerTaskFactory;
 import ca.concordia.drms.util.task.Task;
 
@@ -38,8 +40,8 @@ public class CommandProcessor implements Runnable {
 		while(true){
 			try {
 				socket.receive(request);
-				//@todo there is no clear need to keep libraries, if we can get that in ReplicaManager instance 
-				Task rmtask = ReplicaManagerTaskFactory.create(request, libraries, replica);
+				NetworkMessage networkMessage = ReplicaManagerParser.parseNetworkMessage( new String(request.getData()) );
+				Task rmtask = ReplicaManagerTaskFactory.create(replica, libraries, networkMessage, socket, request);
 				rmtask.execute();
 			} catch (IOException e) {
 				e.printStackTrace();

@@ -1,25 +1,21 @@
 package ca.concordia.drms;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
-import java.io.IOException;
 import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import ca.concordia.drms.model.*;
+import ca.concordia.drms.model.Account;
+import ca.concordia.drms.model.Reservation;
 import ca.concordia.drms.orb.LibraryServer;
-import ca.concordia.drms.util.*;
+import ca.concordia.drms.util.Configuration;
 import ca.concordia.drms.util.parser.ConsoleParser;
-import ca.concordia.drms.util.task.AccountTask;
-import ca.concordia.drms.util.task.BonjourTask;
-import ca.concordia.drms.util.task.ExitTask;
-import ca.concordia.drms.util.task.OverdueTask;
-import ca.concordia.drms.util.task.ReservationTask;
-import ca.concordia.drms.util.task.Task;
-import ca.concordia.drms.util.task.TaskFactory;
 
 /**
  * EclEmma cannot does not cover expected=Exception, because of
@@ -53,45 +49,10 @@ public class ClientTest {
 	}
 	
 	
+
 	
-	@Test 
-	public void testCanExecuteBonjourTask() throws IOException{
-		/**
-		 * shows available commands 
-		 * - sets institution 
-		 * - sets the server to be used  --- not required 
-		 */
-		Task task = TaskFactory.create(libraryServer, institution, BONJOUR_CONCORDIA_STUDENT);
-		assertTrue( task instanceof BonjourTask );
-		assertNotNull( task );
-	}
-	
-	
-	@Test 
-	public void testCanExecuteOverdueTask() throws IOException{
-		Task task = TaskFactory.create(libraryServer, institution,  ADMIN_OVERDUE );
-		assertTrue( task instanceof OverdueTask );
-		assertNotNull( task );
-		
-	}
-	@Test 
-	public void testCanExecuteAccountTask() throws IOException{
-		Task task = TaskFactory.create(libraryServer, institution,  ACCOUNT_JANE_DANE);
-		assertTrue( task instanceof AccountTask );
-		assertNotNull( task );
-	}
-	@Test 
-	public void testCanExecuteReservationTask() throws IOException{
-		Task task = TaskFactory.create(libraryServer, institution,  JANE_DANE_RESERVES_HAMLET);
-		assertTrue( task instanceof ReservationTask );
-		assertNotNull( task );
-	}
-	@Test 
-	public void testCanExecuteExitTask() throws IOException{
-		Task task = TaskFactory.create(libraryServer, institution,  "exit" );
-		assertTrue( task instanceof ExitTask );
-		assertNotNull( task );
-	}
+
+
 	
 	@Test 
 	public void testAvailableCommandsAndTitle(){
