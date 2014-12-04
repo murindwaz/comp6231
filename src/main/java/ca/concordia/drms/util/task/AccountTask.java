@@ -20,6 +20,16 @@ public class AccountTask implements Task {
 	private DatagramSocket datagramSocket;
 	private DatagramPacket datagramPacket;
 	private NetworkMessage networkMessage;
+	
+	
+	/**
+	 * @param replicaManager
+	 * @param libraries
+	 * @param networkMessage
+	 * @param datagramSocket
+	 * @param datagramPacket
+	 * @throws Exception
+	 */
 	public AccountTask(ReplicaManager replicaManager, Map<String, LibraryServerImpl> libraries, NetworkMessage networkMessage, DatagramSocket datagramSocket, DatagramPacket datagramPacket) throws Exception{
 		this.libraries = libraries;
 		this.datagramPacket  =  datagramPacket;
@@ -31,6 +41,9 @@ public class AccountTask implements Task {
 		account.setInstitution(libraryServer.getInstitution());
 	}
 	
+	/**
+	 * Task to make reservation on current instance of library and ReplicaManager
+	 */
 	public void execute() throws RemoteException {
 		libraryServer.setAcknowledgmentTask(new AcknowledgmentTask(replicaManager, libraries, networkMessage, datagramSocket, datagramPacket) );
         libraryServer.createAccount(account.getFirst(), account.getLast(), account.getEmail(), account.getTelephone(), account.getUsername(), account.getPassword(), libraryServer.getInstitution());

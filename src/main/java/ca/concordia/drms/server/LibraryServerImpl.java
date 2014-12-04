@@ -32,9 +32,6 @@ public class LibraryServerImpl extends ca.concordia.drms.orb.LibraryServerPOA {
 	private Map<String, Reservation> reservations;
 	private final Logger logger;
 	private String[] nodes;
-	
-	//
-	
 	private AcknowledgmentTask acknowledgmentTask;
 	
 	
@@ -147,7 +144,7 @@ public class LibraryServerImpl extends ca.concordia.drms.orb.LibraryServerPOA {
 			//Added this code to allow the ReplicaManager to notify the Sequencer about the outcome of the operation
 			acknowledgmentTask.getNetworkMessage().setPayload(StringTransformer.getString(account));
 			acknowledgmentTask.execute();
-			
+			//log account activity 
 			new AccountActivity(account).logActivity("Account Successfully created");
 			logger.debug(account.toString());
 		}
@@ -218,26 +215,33 @@ public class LibraryServerImpl extends ca.concordia.drms.orb.LibraryServerPOA {
 	
 	
 	/**
-	 * @todo throw RemoteException if there is no such an account 
-	 * This function check
+	 * @uses reserveInterLibrary
+	 * @throws RemoteException 
 	 */
 	public void reserveBook(String username, String password, String title, String author)  throws RemoteException {
-		Entry<String, Book> bookEntry = findBookEntry(title, author, true);
 		Account account = findAccount(username, password);
-		if( account != null && bookEntry != null){
-			if( bookEntry.getKey() != null && account.getUsername().equals(username)) {
+		if( account == null || account.getUsername().length() <= 0 ){
+			String message = "Username and password does not match any account.";
+			throw new RemoteException( message );
+		}
+		
+		Entry<String, Book> bookEntry = findBookEntry(title, author, true);
+			if( bookEntry != null && bookEntry.getKey() != null ){
 				account.getReserved().put(bookEntry.getKey(), bookEntry.getValue());
 				Calendar calendar = new GregorianCalendar();
 				calendar.add(Calendar.DATE, 14);
 				Date now = new Date();
-				reservations.put(bookEntry.getKey(), new Reservation(bookEntry.getValue(), account, now, calendar.getTime(), null));
+				Reservation reservation = new Reservation(bookEntry.getValue(), account, now, calendar.getTime(), null);
+				reservations.put(bookEntry.getKey(), reservation);
 				bookEntry.getValue().setReserved(true);
+				//send acknowledgment for the reservation 
+				acknowledgmentTask.getNetworkMessage().setPayload(StringTransformer.getString(reservation));
+				acknowledgmentTask.execute();
+				//making the acknowledgment 
 				new AccountActivity(account).logActivity("Reserved a Book: " + bookEntry.getValue().toString() + " From "+ account.getInstitution() );
-	
-			}
 		}else{
-			String message = account == null ? "Username and password does not match any account." : "The book " + title + " By " + author + " not found.";
-			throw new RemoteException( message );
+			//Try other libraries if book not found at this library.
+			reserveInterLibrary(username, password, title, author);
 		}
 	}
 	
@@ -249,11 +253,14 @@ public class LibraryServerImpl extends ca.concordia.drms.orb.LibraryServerPOA {
 	public void reserveInterLibrary(String username, String password, String title, String author)  throws RemoteException {
 		ExecutorService threadPool = Executors.newFixedThreadPool( nodes.length - 1 );
 		CompletionService<Book> pool = new ExecutorCompletionService<Book>(threadPool);		
-		Entry<String, Book> bookEntry = findBookEntry(title, author, true);
+		boolean reservationDone = false; 
 		Account account = findAccount(username, password);
+		if( account == null || account.getUsername().length() <= 0 ){
+			String message =  "The book " + title + " By " + author + " not found.";
+			throw new RemoteException( message );
+		}
 		ReservationBookShelf shelf = new ReservationBookShelf(account, this);//observable
 		new RemoteLibraryNotifier( shelf , this);//observer
-		if( bookEntry == null &&  account != null ){
 			try {
 				for( String node: nodes){
 					if( !node.equals( this.getInstitution()) ){
@@ -265,6 +272,15 @@ public class LibraryServerImpl extends ca.concordia.drms.orb.LibraryServerPOA {
 						Book book = pool.take().get();//@todo put these books into an ObservableMap, finalize reservation, and notify remote servers to release their copies
 						if(book instanceof Book && book.getCode() != null ) { 
 							shelf.add( book );
+							/**
+							 * @todo re-test this section to make sure this task is in sync with ReservationShelf 	
+							 */
+							if( reservationDone == false && acknowledgmentTask != null){
+								Reservation reservation = new Reservation(book, account, new Date(), null, null);
+								acknowledgmentTask.getNetworkMessage().setPayload(StringTransformer.getString(reservation));
+								acknowledgmentTask.execute();
+								reservationDone = true;
+							}
 						}
 						log( String.format(" %s reserveInterLibrary :: getting a book  ---- %s", this.getInstitution(), book != null ? book.toString() : " NOT FOUND " ) );
 					}
@@ -272,9 +288,6 @@ public class LibraryServerImpl extends ca.concordia.drms.orb.LibraryServerPOA {
 			} catch (Exception e) {
 				throw new RemoteException( e.getMessage() );
 			}
-		}else if( bookEntry != null && account != null ){
-			reserveBook(username, password, title, author);
-		}
 		//terminating all tasks at the end
 		threadPool.shutdown();
 	}

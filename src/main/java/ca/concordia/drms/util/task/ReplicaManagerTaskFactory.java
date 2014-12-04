@@ -23,7 +23,7 @@ public class ReplicaManagerTaskFactory {
 		libraryServer.log(String.format(" %s -- CommandProcessor::run received %s from PORT : %d ",
 				libraryServer.getInstitution(), new String(networkMessage.toString()), datagramSocket.getPort()));
 		int ctask = Arrays.asList(Configuration.ALLOWED_COMMANDS).indexOf(networkMessage.getOperation());
-		switch (ctask) {
+		switch(ctask) {
 			/**
 			 * Basic Operations tasks
 			 */
@@ -34,8 +34,8 @@ public class ReplicaManagerTaskFactory {
 				task = new OverdueTask(libraryServer, networkMessage);
 				break;
 			case Configuration.RESERVATION:
-				task = new ReservationTask(libraryServer, networkMessage, false);
-				break;
+				task = new ReservationTask(replicaManager, libraries, networkMessage, datagramSocket, datagramPacket);
+			break;
 			/**
 			 * Administrative tasks
 			 */
