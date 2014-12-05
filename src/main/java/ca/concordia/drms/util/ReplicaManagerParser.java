@@ -76,10 +76,15 @@ public class ReplicaManagerParser {
 	private static Book parseBookFromJson(JsonObject json){
 		Book book = new Book();
 		book.setAuthor(json.getAsJsonPrimitive("author").getAsString());
-		book.setCode(json.getAsJsonPrimitive("code").getAsString());
-		book.setLibrary(json.getAsJsonPrimitive("library").getAsString());
-		book.setReserved(json.getAsJsonPrimitive("reserved").getAsBoolean());
 		book.setTitle(json.getAsJsonPrimitive("title").getAsString());
+		//the minimum book configuration is an author and a title
+		try{
+			book.setCode(json.getAsJsonPrimitive("code").getAsString());
+			book.setLibrary(json.getAsJsonPrimitive("library").getAsString());
+			book.setReserved(json.getAsJsonPrimitive("reserved").getAsBoolean());
+		}catch(Exception e){
+			System.out.println( String.format("An error occurred :: ", e.getMessage()));
+		}
 		return book;
 	}
 	
@@ -89,15 +94,20 @@ public class ReplicaManagerParser {
 	 */
 	private static Account parseAccountFromJson(JsonObject json){
 		Account account = new Account();
-		account.setFirst(json.getAsJsonPrimitive("first").getAsString());
-		account.setLast(json.getAsJsonPrimitive("last").getAsString());
-		account.setEmail(json.getAsJsonPrimitive("email").getAsString());
 		account.setPassword(json.getAsJsonPrimitive("password").getAsString());
-		account.setTelephone(json.getAsJsonPrimitive("telephone").getAsString());
 		account.setUsername(json.getAsJsonPrimitive("username").getAsString());
 		account.setAdmin(json.getAsJsonPrimitive("admin").getAsBoolean());
-		//account.setInstitution(institution);
-		//account.setReserved(reserved);
+		try{
+			account.setFirst(json.getAsJsonPrimitive("first").getAsString());
+			account.setLast(json.getAsJsonPrimitive("last").getAsString());
+			account.setEmail(json.getAsJsonPrimitive("email").getAsString());
+			account.setTelephone(json.getAsJsonPrimitive("telephone").getAsString());
+			//account.setInstitution(institution);
+			//account.setReserved(reserved);
+		}catch( Exception e ){
+			System.out.println( String.format("An error occurred :: ", e.getMessage()));
+
+		}
 		return account;
 	}
 	
