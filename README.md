@@ -14,7 +14,7 @@ Installation procedures
 	>$ git clone https://github.com/murindwaz/comp6231.git 
 	>$
 	- Or, download zipped file at https://github.com/murindwaz/comp6231 
-	- 
+	- [import the project into Eclipse]
 	
 ```
 
@@ -52,4 +52,11 @@ Server Three : McGill
 
 Has 3 copies of
 
+
+
+References
+====
+
+
+[import the project into Eclipse] : http://people.cs.uchicago.edu/~kaharris/10200/tutorials/eclipse/Step_04.html
 
