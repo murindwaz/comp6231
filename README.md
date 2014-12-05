@@ -1,9 +1,6 @@
 #COMP 6231 - Project 
 ##Replica Manager and Servers  
 
-
-
-
 ###Installation procedures 
 
 ```
@@ -18,7 +15,7 @@
 	- If all dependencies are ready to use, compile the project.
 ```
 
-###Configuration and Running a Replica Instance 
+###Configuration
 
 
 ```
@@ -30,6 +27,16 @@
 		- RM_FOUR 
 ```
 
+###Running a Replica Instance 
+
+```
+	- Go to ca.concordia.drms.util.Configuration
+	- Add computer names for 
+		- RM_ONE
+		- RM_TWO 
+		- RM_THREE
+		- RM_FOUR 
+```
 
 ###Operations available 
 The client can send following requests 
@@ -68,6 +75,15 @@ Each replica manager runs 3 instance of servers
 		- 1: first copy in the library
 
 
+###Generating CORBA Objects from the IDL file
+
+```
+	- Go to installation directory [root-directory]/src/main/java
+	#Generate stubs/skelleton with the next command
+	-$ idlj  -fall -verbose drms.idl 
+``` 
+
+
 
 References
 ====
@@ -76,4 +92,9 @@ References
 1. [Import the project in Eclipse] 
 
 [Import the project in Eclipse]: http://people.cs.uchicago.edu/~kaharris/10200/tutorials/eclipse/Step_04.html "Import the project in Eclipse"
+https://ece.uwaterloo.ca/~lintan/courses/testing/tutorials/T1-JUnit.pdf
+http://www.javapractices.com/topic/TopicAction.do?Id=156
+ http://java.dzone.com/articles/java-concurrency-%E2%80%93-part-7
+-	User Defined Data Types http://docstore.mik.ua/orelly/java-ent/jenut/ch10_07.htm
+
 
