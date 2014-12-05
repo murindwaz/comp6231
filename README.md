@@ -1,5 +1,5 @@
-Project for COMP 6231 
-=====================
+#COMP 6231 - Project - Replica Manager and Servers  
+
 
 
 
