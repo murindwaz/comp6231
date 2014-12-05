@@ -10,7 +10,7 @@
 	- download and install eclipse 
 	- download and install eclipse maven plugin 
 	- to install the project, run the following command
-	>$ git clone https://github.com/murindwaz/comp6231.git 
+	- $ git clone https://github.com/murindwaz/comp6231.git 
 	- Or, download zipped file at https://github.com/murindwaz/comp6231 
 	- Import the project in Eclipse
 	- At root directory, find the pom.xml 
@@ -20,9 +20,14 @@
 
 ###Configuration and Running a Replica Instance 
 
+
 ```
 	- Go to ca.concordia.drms.util.Configuration
-	- 
+	- Add computer names for 
+		- RM_ONE
+		- RM_TWO 
+		- RM_THREE
+		- RM_FOUR 
 ```
 
 
