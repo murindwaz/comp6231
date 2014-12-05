@@ -1,7 +1,7 @@
-#COMP 6231 - Project 
-##Replica Manager and Servers  
+##COMP 6231 - Project 
+###Replica Manager and Servers  
 
-###Installation procedures 
+####Installation procedures 
 
 ```
 	- download and install eclipse 
@@ -15,7 +15,7 @@
 	- If all dependencies are ready to use, compile the project.
 ```
 
-###Configuration
+####Configuration
 
 
 ```
@@ -27,7 +27,7 @@
 		- RM_FOUR 
 ```
 
-###Running a Replica Instance 
+####Running a Replica Instance 
 
 ```
 	- Go to ca.concordia.drms.util.Configuration
@@ -38,7 +38,7 @@
 		- RM_FOUR 
 ```
 
-###Operations available 
+####Operations available 
 The client can send following requests 
 
 ```
@@ -54,14 +54,14 @@ The client can send following requests
 		- Replica field is added by the replica that processed the request
 ```
 
-###Servers 
+####Servers 
 Each replica manager runs 3 instance of servers 
 
 	- Server One : Concordia 
 	- Server Two : McGill 
 	- Server Three : Daswon
 
-###Library Content 
+####Library Content 
 
 	- Go to ca.concordia.drms.util.Configuration
 	- Find initBooks()
@@ -75,7 +75,7 @@ Each replica manager runs 3 instance of servers
 		- 1: first copy in the library
 
 
-###Generating CORBA Objects from the IDL file
+####Generating CORBA Objects from the IDL file
 
 ```
 	- Go to installation directory [root-directory]/src/main/java
@@ -85,16 +85,18 @@ Each replica manager runs 3 instance of servers
 
 
 
-References
-====
-
+###References
 
 1. [Import the project in Eclipse] 
+2. [Task executors and Thread pools]
+3. [JUnit tutorial]
+4. [User Defined Data Types]
+5. [Observers and listeners]
 
 [Import the project in Eclipse]: http://people.cs.uchicago.edu/~kaharris/10200/tutorials/eclipse/Step_04.html "Import the project in Eclipse"
-https://ece.uwaterloo.ca/~lintan/courses/testing/tutorials/T1-JUnit.pdf
-http://www.javapractices.com/topic/TopicAction.do?Id=156
- http://java.dzone.com/articles/java-concurrency-%E2%80%93-part-7
--	User Defined Data Types http://docstore.mik.ua/orelly/java-ent/jenut/ch10_07.htm
+[JUnit tutorial]: https://ece.uwaterloo.ca/~lintan/courses/testing/tutorials/T1-JUnit.pdf
+[Observers and listeners]: http://www.javapractices.com/topic/TopicAction.do?Id=156
+[Task executors and Thread pools]: http://java.dzone.com/articles/java-concurrency-%E2%80%93-part-7
+[User Defined Data Types]: http://docstore.mik.ua/orelly/java-ent/jenut/ch10_07.htm
 
 
