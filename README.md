@@ -21,7 +21,8 @@
 ###Configuration and Running a Replica Instance 
 
 ```
-	
+	- Go to ca.concordia.drms.util.Configuration
+	- 
 ```
 
 
@@ -43,13 +44,25 @@ The client can send following requests
 
 ###Servers 
 Each replica manager runs 3 instance of servers 
+
 	- Server One : Concordia 
 	- Server Two : McGill 
 	- Server Three : Daswon
 
 ###Library Content 
+
 	- Go to ca.concordia.drms.util.Configuration
-	- Find 
+	- Find initBooks()
+	- Add book in each servers  section. 
+	- The code has to be provided, and has to be unique in each library
+	- Eg: co-both-kr-2014-1  
+		- co: Concordia Library
+		- both: initials of the book name "Bones of the host"
+		- kr: Initials of the author name "Kathy Reichs"
+		- 2014: Year of publication
+		- 1: first copy in the library
+
+
 
 References
 ====

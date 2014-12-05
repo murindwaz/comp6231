@@ -33,16 +33,15 @@ public class Configuration {
 	public static final int RESERVATION = 3; 
 	public static final int INTERLIB = 4; 
 	public static final int EXIT = 5; 
-	//Replication tasks --- these task IDs are used for managerial purposes
+	
+	/**
+	 * Replication tasks 
+	 * Task IDs used for replication management purposes
+	 */
 	public static final int BYZANTINE = 6;
 	public static final int RESYNC = 7;
 	public static final int REPLICATION = 8;
 
-	/**
-	 * @todo merge reserveInterLiba and reservation
-	 * The code becomes a bit smaller
-	 */
-	private static String OPERATION_BONJOUR = "bonjour";
 	private static String OPERATION_ACCOUNT = "account";
 	private static String OPERATION_OVERDUE = "overdue";
 	private static String OPERATION_RESERVATION = "reservation";
@@ -66,15 +65,15 @@ public class Configuration {
 	public static final String REPLICA_MANAGER_OPERATION_RESYNC = OPERATION_RESYNC;
 	public static final String REPLICA_MANAGER_OPERATION_REPLICATION = OPERATION_REPLICATION;
 	
-	
-	
-	
-	//InetAddress.getByName("localhost")
-	//InetAddress.getLocalHost(); == IP of this computer if used InetAddress.getLocalHost().getHostAddress();
-	public static final String REPLICA_ONE_IP = "192.168.2.19";//@todo this is IP address to home in longueuil
-	public static final String REPLICA_TWO_IP = "192.168.2.19";//@todo this is IP address to home in longueuil
-	public static final String REPLICA_THREE_IP = "192.168.2.19";//@todo this is IP address to home in longueuil
-	
+	/**
+	 * InetAddress.getByName("localhost")
+	 * InetAddress.getLocalHost(); == IP of this computer if used InetAddress.getLocalHost().getHostAddress();
+	 * Names of Replica Manager computers participating in this application
+	 */
+	public static final String RM_ONE = "Amritansh-HP";
+	public static final String RM_TWO = "gost-via-mac";
+	public static final String RM_THREE = "";
+	public static final String RM_FOUR = "";
 	
 	//Institutions 
 	public static final String INSTITUTION_CONCORDIA = "concordia"; 
@@ -96,46 +95,15 @@ public class Configuration {
 	//Time to wait before timeout.
 	public static final int SOCKET_TIMEOUT = (9 * 1000); 
 	
-	/**@todo remove these messages since they are reserved to clients and not RM and Server side*/
-	private static final Map<String,String> help;
-	static {
-		help = new HashMap<String,String>();
-		/**list available books - so the user can choose one**/
-        help.put(OPERATION_BONJOUR, "**To better serve you, type in order \"bonjour -i [your institution] -r [your role: student of admin]\" to the following prompt **%s");
-        help.put(OPERATION_OVERDUE, "**For a report about non-returners, type \"overdue -u [admin username] -p [admin password] -d [overdue minimun days]\" to the following prompt**%s"); 
-        help.put(OPERATION_ACCOUNT, "**to register, type \"account -f [first name] -l [last name] -u [username] -p [password] -e [email] -t [telephone] \"**%s");
-        help.put(OPERATION_RESERVATION, "**to make a reservation type \"reservation -u [username] -p [password] -b [Book title] -a [Book author] \"**%s");
-        help.put(OPERATION_INTERLIB, "**to make an inter-library reservation type \"interlib -u [username] -p [password] -b [Book title] -a [Book author] \"**%s");
-        help.put("exit", "**To close this application, type \"exit\"** to prompt. %s");
-	}
-	
-	
-	
-	
-	
-	
-	
-	public static final Map<String,String> getCommandHelp(){
-		 return help;
-	}
-	
-	
-	
-	
 	/**
-	 * @todo finalize while testing this thing 
 	 * Reservation initialization 
 	 * @param library
 	 * @return
 	 */
 	public static final Map<String, Reservation> initReservations( String library ){
-		
-		
-		
 		if( library.equals(INSTITUTION_CONCORDIA)){}
 		if( library.equals(INSTITUTION_DAWSON)){}
 		if( library.equals(INSTITUTION_MCGILL)){}
-		
 		return null;
 	}
 
