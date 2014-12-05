@@ -14,7 +14,7 @@ Installation procedures
 	>$ git clone https://github.com/murindwaz/comp6231.git 
 	>$
 	- Or, download zipped file at https://github.com/murindwaz/comp6231 
-	- [importproject]
+	- Import the project in Eclipse
 	
 ```
 
@@ -57,6 +57,8 @@ Has 3 copies of
 References
 ====
 
+
+1. [importproject] 
 
 [importproject]: http://people.cs.uchicago.edu/~kaharris/10200/tutorials/eclipse/Step_04.html "Import the project in Eclipse"
 
