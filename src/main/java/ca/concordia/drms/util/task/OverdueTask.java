@@ -44,7 +44,7 @@ public class OverdueTask implements Task{
 		this.replicaManager = replicaManager;
 		this.networkMessage = networkMessage;
 		libraryServer = libraries.get(networkMessage.getDestination());
-		overdue = ReplicaManagerParser.parseOverdue(networkMessage.getPayload());
+		overdue = ReplicaManagerParser.parseOverdueFromPaload(networkMessage.getPayload());
 		overdue.getAccount().setInstitution(libraryServer.getInstitution());
 	}
 

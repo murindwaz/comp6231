@@ -35,7 +35,7 @@ public class ReservationTask implements Task {
 		this.replicaManager = replicaManager;
 		this.networkMessage = networkMessage;
 		libraryServer = libraries.get(networkMessage.getDestination());
-		reservation = ReplicaManagerParser.parseReservation(networkMessage.getPayload());
+		reservation = ReplicaManagerParser.parseReservationFromPayload(networkMessage.getPayload());
 		//account.setInstitution(libraryServer.getInstitution());
 	}
 	

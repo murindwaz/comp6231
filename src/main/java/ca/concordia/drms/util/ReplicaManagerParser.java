@@ -36,6 +36,20 @@ public class ReplicaManagerParser {
 		Account account = parseAccountFromJson(json);
 		return account;
 	}
+	/**
+	 * This is a repetition but we dont have alternative for the moment
+	 * @param argument
+	 * @return
+	 * @throws Exception
+	 */
+	public static Account parseAccountFromPayload(String argument) throws Exception{
+		Gson gson = new Gson();
+		JsonReader reader = new JsonReader(new StringReader(argument.trim()));
+		reader.setLenient(true);
+		JsonObject json = gson.fromJson(reader, JsonObject.class);
+		Account account = parseAccountFromJson(json);
+		return account;
+	}
 	
 	
 	/**
@@ -118,6 +132,38 @@ public class ReplicaManagerParser {
 	public static Reservation parseOverdue(String argument) throws Exception {
 		NetworkMessage networkMessage = parseNetworkMessage(argument);
 		Reservation reservation = parseReservation(argument);
+		return reservation;
+	}
+
+	
+	/**
+	 * For sake of simplicity, but we can do better if we had enough time to refactor this
+	 * @param payload
+	 * @return
+	 */
+	public static Reservation parseReservationFromPayload(String payload) {
+		Gson gson = new Gson();
+		Reservation reservation = new Reservation();
+		JsonReader reader = new JsonReader(new StringReader(payload.trim()));
+		JsonObject json = gson.fromJson(reader, JsonObject.class);
+			reader.setLenient(true);
+		JsonObject jbook = json.getAsJsonObject("book");
+		JsonObject jaccount = json.getAsJsonObject("account");
+		reservation.setBook(parseBookFromJson(jbook));
+		reservation.setAccount(parseAccountFromJson(jaccount));
+		//@todo before enabling this section, please test re-run ReplicaManagerParserTest to check if all parsing runs smothly 
+		//reservation.setStarting(new Date( json.getAsJsonPrimitive("starting").getAsString()));
+		//reservation.setDueDate(new Date(json.getAsJsonPrimitive("dueDate").getAsString()));
+		return reservation;
+	}
+
+	/**
+	 * 
+	 * @param payload
+	 * @return
+	 */
+	public static Reservation parseOverdueFromPaload(String payload) {
+		Reservation reservation = parseReservationFromPayload(payload);
 		return reservation;
 	}
 }

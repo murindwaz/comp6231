@@ -36,7 +36,7 @@ public class AccountTask implements Task {
 		this.datagramSocket = datagramSocket;
 		this.replicaManager = replicaManager;
 		this.networkMessage = networkMessage;
-		account = ReplicaManagerParser.parseAccount(networkMessage.getPayload());
+		account = ReplicaManagerParser.parseAccountFromPayload(networkMessage.getPayload());
 		libraryServer = libraries.get(networkMessage.getDestination());
 		account.setInstitution(libraryServer.getInstitution());
 	}
