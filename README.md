@@ -14,7 +14,7 @@ Installation procedures
 	>$ git clone https://github.com/murindwaz/comp6231.git 
 	>$
 	- Or, download zipped file at https://github.com/murindwaz/comp6231 
-	- \[importproject\]
+	- [importproject]
 	
 ```
 
