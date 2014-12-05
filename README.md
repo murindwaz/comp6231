@@ -4,55 +4,52 @@
 
 
 
-Installation procedures 
-==== 
+###Installation procedures 
 
 ```
 	- download and install eclipse 
 	- download and install eclipse maven plugin 
 	- to install the project, run the following command
 	>$ git clone https://github.com/murindwaz/comp6231.git 
-	>$
 	- Or, download zipped file at https://github.com/murindwaz/comp6231 
 	- Import the project in Eclipse
+	- At root directory, find the pom.xml 
+	- Right click the pom.xml and run install. 
+	- If all dependencies are ready to use, compile the project.
+```
+
+###Configuration and Running a Replica Instance 
+
+```
 	
 ```
 
-> bonjour -i concordia -r student
-> account -f Pascal -l Maniraho -u pmn -p pmn -e pmn@conc.ca -t 5553333
-> reservation -u pmn -p pmn -b The Tragedy of Macbeth -a William Shakespeare
-> interlib -u pmn -p pmn -b The Tragedy of Hamlet, Prince of Denmark -a William Shakespeare
 
-> bonjour -i concordia -r admin
-> overdue -u admin -p admin -d -1
+###Operations available 
+The client can send following requests 
 
-> bonjour -i dawson -r student
-> account -f Pascal -l Maniraho -u pmn -p pmn -e pmn@conc.ca -t 5553333
-> reservation -u pmn -p pmn -b The Tragedy of Macbeth -a William Shakespeare
-> interlib -u pmn -p pmn -b The Tragedy of Hamlet, Prince of Denmark -a William Shakespeare
+```
+	- { operation: OPERATION, id : MESSAGE_ID, destination : INSTITUTION, payload : MESSAGE, replica: REPLICA_FIELD }
+	- OPERATIONS are:
+		- account : to create account 
+		- reservation: to make a book reservation ( this covers the interlibrary reservation as well ) 
+		- overdue: to get a list of non-returners 
+	- PAYLOAD: 
+		- Account model JSON string representation 
+		- Reservation model JSON string representation
+	- REPLICA: 
+		- Replica field is added by the replica that processed the request
+```
 
-Server One : Concordia
-==========
+###Servers 
+Each replica manager runs 3 instance of servers 
+	- Server One : Concordia 
+	- Server Two : McGill 
+	- Server Three : Daswon
 
-> bonjour -i concordia -r student
-> account -f Borow -l MrKing -u borowmiking -p pmn -e borowmiking@conc.ca -t 5553333
-> interlib -u borowmiking -p pmn -b Bones of the host -a Kathy Reichs
-
-
-> account -f Prince -l Harry -u prha -p prha -e prha@conc.ca -t 5553333
-> reservation -u prha -p prha -b Bones of the host -a Kathy Reichs
-> interlib -u prha -p prha -b Bones of the host -a Kathy Reichs
-
-
-Server Two : Dawson
-==========
-
-Server Three : McGill
-===========
-
-Has 3 copies of
-
-
+###Library Content 
+	- Go to ca.concordia.drms.util.Configuration
+	- Find 
 
 References
 ====
