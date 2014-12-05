@@ -58,7 +58,7 @@ References
 ====
 
 
-1. [importproject] 
+1. [Import the project in Eclipse] 
 
-[importproject]: http://people.cs.uchicago.edu/~kaharris/10200/tutorials/eclipse/Step_04.html "Import the project in Eclipse"
+[Import the project in Eclipse]: http://people.cs.uchicago.edu/~kaharris/10200/tutorials/eclipse/Step_04.html "Import the project in Eclipse"
 
